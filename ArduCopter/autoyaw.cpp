@@ -198,7 +198,7 @@ float Mode::AutoYaw::yaw()
         return copter.initial_armed_bearing;
 
     case AUTO_YAW_LOOK_AT_NEXT_WP:
-    default:
+        default:
         // point towards next waypoint.
         // we don't use wp_bearing because we don't want the copter to turn too much during flight
         return copter.wp_nav->get_yaw();
