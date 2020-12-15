@@ -112,6 +112,7 @@ void Mode::AutoYaw::set_fixed_yaw(float angle_deg, float turn_rate_dps, int8_t d
             angle_deg = -angle_deg;
         }
         _fixed_yaw = wrap_360_cd((angle_deg * 100) + curr_yaw_target);
+        //copter.g2.user_parameters.additional_yaw.set(angle_deg * 100);
     }
 
     // get turn speed
@@ -201,6 +202,10 @@ float Mode::AutoYaw::yaw()
     default:
         // point towards next waypoint.
         // we don't use wp_bearing because we don't want the copter to turn too much during flight
+        if (copter.control_mode == Mode::Number::AUTO) {
+            if (copter.mode_auto.mode() == Auto_WP)
+            return wrap_360_cd(copter.wp_nav->get_yaw() + copter.g2.user_parameters.additional_yaw.get());
+        }
         return copter.wp_nav->get_yaw();
     }
 }
